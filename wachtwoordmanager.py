@@ -17,14 +17,14 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 
 
-# ── Bestandspaden ──────────────────────────────────────────────
+
 DATA_DIR = Path(os.getenv("APPDATA", Path.home())) / "Wachtwoordmanager"
 DATA_FILE = DATA_DIR / "kluis.enc"
 SALT_FILE = DATA_DIR / "salt.bin"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
-# ── Versleuteling ──────────────────────────────────────────────
+
 def maak_sleutel(wachtwoord: str, salt: bytes) -> Fernet:
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
@@ -63,7 +63,7 @@ def genereer_wachtwoord(lengte=16, symbolen=True):
     return "".join(secrets.choice(tekens) for _ in range(lengte))
 
 
-# ── Hoofd-GUI ─────────────────────────────────────────────────
+
 class WachtwoordManager(tk.Tk):
     BLAUW = "#1a73e8"
     DONKER = "#202124"
@@ -88,7 +88,7 @@ class WachtwoordManager(tk.Tk):
         self._stijl()
         self._toon_login()
 
-    # ── Stijl ──────────────────────────────────────────────────
+
     def _stijl(self):
         s = ttk.Style(self)
         s.theme_use("clam")
@@ -122,7 +122,6 @@ class WachtwoordManager(tk.Tk):
         s.map("Treeview", background=[("selected", "#e8f0fe")],
               foreground=[("selected", self.DONKER)])
 
-    # ── Login-scherm ────────────────────────────────────────────
     def _toon_login(self):
         self._leeg()
         frame = ttk.Frame(self)
@@ -183,7 +182,7 @@ class WachtwoordManager(tk.Tk):
             self.hoofd_wachtwoord = pw
             self._toon_hoofd()
 
-    # ── Hoofdscherm ─────────────────────────────────────────────
+
     def _toon_hoofd(self):
         self._leeg()
         self.unbind("<Return>")
@@ -270,7 +269,7 @@ class WachtwoordManager(tk.Tk):
             self.geselecteerde_id = self._zichtbare_ids[idx]
             self._toon_detail(self.geselecteerde_id)
 
-    # ── Detail-weergave ─────────────────────────────────────────
+
     def _leeg_detail(self):
         for w in self._detail.winfo_children():
             w.destroy()
@@ -395,7 +394,7 @@ class WachtwoordManager(tk.Tk):
         self._status_label.config(text=tekst)
         self._kopieer_timer = self.after(2500, lambda: self._status_label.config(text=""))
 
-    # ── Nieuw item ──────────────────────────────────────────────
+   
     def _nieuw_item(self):
         uid = secrets.token_hex(8)
         self.data[uid] = {
@@ -414,14 +413,14 @@ class WachtwoordManager(tk.Tk):
             self._lijst.see(idx)
         self._toon_detail(uid)
 
-    # ── Vergrendelen ────────────────────────────────────────────
+
     def _vergrendel(self):
         self.hoofd_wachtwoord = None
         self.data = {}
         self.geselecteerde_id = None
         self._toon_login()
 
-    # ── Hulp ────────────────────────────────────────────────────
+
     def _leeg(self):
         for w in self.winfo_children():
             w.destroy()
