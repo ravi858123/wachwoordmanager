@@ -22,7 +22,7 @@ jobs:
         run: pip install cryptography pyinstaller
 
       - name: EXE bouwen
-        run: pyinstaller --onefile --windowed --name "Wachtwoordmanager" wachtwoordmanager.py
+        run: pyinstaller --onefile --windowed --name "Wachtwoordmanager" --icon "wachtwoordmanager.ico" wachtwoordmanager.py
 
       - name: EXE uploaden als artifact
         uses: actions/upload-artifact@v4
